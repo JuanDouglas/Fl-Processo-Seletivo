@@ -28,7 +28,8 @@ namespace WebAtividadeEntrevista.Controllers
             BoCliente bo = new BoCliente();
             bool existe = bo.VerificarExistencia(model.CPF);
 
-            if (existe) {
+            if (existe)
+            {
                 ModelState.AddModelError(nameof(ClienteModel.CPF), "Já existe registro com o CPF informado!");
             }
 
@@ -43,9 +44,8 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
-                
                 model.Id = bo.Incluir(new Cliente()
-                {                    
+                {
                     CEP = model.CEP,
                     Cidade = model.Cidade,
                     Email = model.Email,
@@ -58,7 +58,6 @@ namespace WebAtividadeEntrevista.Controllers
                     CPF = model.CPF
                 });
 
-           
                 return Json("Cadastro efetuado com sucesso");
             }
         }
@@ -67,7 +66,7 @@ namespace WebAtividadeEntrevista.Controllers
         public JsonResult Alterar(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
-       
+
             if (!this.ModelState.IsValid)
             {
                 List<string> erros = (from item in ModelState.Values
@@ -92,7 +91,7 @@ namespace WebAtividadeEntrevista.Controllers
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone
                 });
-                               
+
                 return Json("Cadastro alterado com sucesso");
             }
         }
@@ -119,8 +118,6 @@ namespace WebAtividadeEntrevista.Controllers
                     Sobrenome = cliente.Sobrenome,
                     Telefone = cliente.Telefone
                 };
-
-            
             }
 
             return View(model);

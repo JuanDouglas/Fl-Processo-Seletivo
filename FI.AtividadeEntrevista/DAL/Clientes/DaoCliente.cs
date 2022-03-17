@@ -56,7 +56,13 @@ namespace FI.AtividadeEntrevista.DAL
             return cli.FirstOrDefault();
         }
 
-        internal bool VerificarExistencia(string CPF)
+        /// <summary>
+        /// Verifica se existe algum registro com o CPF informado
+        /// </summary>
+        /// <param name="CPF">CPF a ser buscado</param>
+        /// <param name="idExcluido">Id de conta excluida da busca.</param>
+        /// <returns></returns>
+        internal bool VerificarExistencia(string CPF, int idExcluido = 0)
         {
             List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
 
@@ -64,7 +70,14 @@ namespace FI.AtividadeEntrevista.DAL
 
             DataSet ds = base.Consultar("FI_SP_VerificaCliente", parametros);
 
-            return ds.Tables[0].Rows.Count > 0;
+            bool existe = ds.Tables[0].Rows.Count > 0;
+
+            if (idExcluido > 0 && existe)
+            {
+               
+            }
+
+            return existe;
         }
 
         internal List<Cliente> Pesquisa(int iniciarEm, int quantidade, string campoOrdenacao, bool crescente, out int qtd)

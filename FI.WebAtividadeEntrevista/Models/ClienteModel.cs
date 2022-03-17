@@ -77,11 +77,16 @@ namespace WebAtividadeEntrevista.Models
 
     }
 
-    public class CPFAttribute : ValidationAttribute
+    public sealed class CPFAttribute : ValidationAttribute
     {
-
+        public CPFAttribute()
+        {
+            ErrorMessage = "O CPF informado não é válido!";
+        }
         public override bool IsValid(object value)
         {
+            value = value ?? string.Empty;
+
             if (value is string)
             {
                 return CPFValido(value as string);
@@ -94,7 +99,7 @@ namespace WebAtividadeEntrevista.Models
         {
             int[] numArray1 = new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
             int[] numArray2 = new int[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
-            
+
             cpf = cpf.Trim().Replace(".", "").Replace("-", "");
 
             if (cpf.Length != 11)
