@@ -65,18 +65,19 @@ namespace FI.AtividadeEntrevista.BLL
         public List<DML.Cliente> Pesquisa(int iniciarEm, int quantidade, string campoOrdenacao, bool crescente, out int qtd)
         {
             DAL.DaoCliente cli = new DAL.DaoCliente();
-            return cli.Pesquisa(iniciarEm,  quantidade, campoOrdenacao, crescente, out qtd);
+            return cli.Pesquisa(iniciarEm, quantidade, campoOrdenacao, crescente, out qtd);
         }
 
         /// <summary>
         /// VerificaExistencia
         /// </summary>
         /// <param name="CPF"></param>
+        /// <param name="idExistente">Indica o id de cliente que deve ser desconsiderado.</param>
         /// <returns></returns>
-        public bool VerificarExistencia(string CPF)
+        public bool VerificarExistencia(string CPF, long idExistente = 0)
         {
             DAL.DaoCliente cli = new DAL.DaoCliente();
-            return cli.VerificarExistencia(CPF);
+            return cli.VerificarExistencia(CPF, idExistente);
         }
     }
 }

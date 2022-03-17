@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="BLL\BoCliente.cs" />
     <Compile Include="DAL\Clientes\DaoCliente.cs" />
+    <Content Include="DAL\Clientes\Procedures\FI_SP_VerificaCliente.sql" />
     <Compile Include="DAL\Padrao\FI.AcessoDados.cs" />
     <Compile Include="DML\Cliente.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

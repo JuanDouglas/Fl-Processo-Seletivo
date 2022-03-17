@@ -62,7 +62,7 @@ namespace FI.AtividadeEntrevista.DAL
         /// <param name="CPF">CPF a ser buscado</param>
         /// <param name="idExcluido">Id de conta excluida da busca.</param>
         /// <returns></returns>
-        internal bool VerificarExistencia(string CPF, int idExcluido = 0)
+        internal bool VerificarExistencia(string CPF, long idExcluido = 0)
         {
             List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
 
@@ -70,11 +70,14 @@ namespace FI.AtividadeEntrevista.DAL
 
             DataSet ds = base.Consultar("FI_SP_VerificaCliente", parametros);
 
-            bool existe = ds.Tables[0].Rows.Count > 0;
+            var rows = ds.Tables[0].Rows;
+            bool existe = rows.Count > 0;
 
-            if (idExcluido > 0 && existe)
+            if (idExcluido > 0 && 
+                existe &&
+                rows.Count == 1)
             {
-               
+                return rows[0].Field<long>("ID") != idExcluido;
             }
 
             return existe;
@@ -171,6 +174,7 @@ namespace FI.AtividadeEntrevista.DAL
                     cli.Nome = row.Field<string>("Nome");
                     cli.Sobrenome = row.Field<string>("Sobrenome");
                     cli.Telefone = row.Field<string>("Telefone");
+                    cli.CPF = row.Field<string>("CPF");
                     lista.Add(cli);
                 }
             }

@@ -66,6 +66,12 @@ namespace WebAtividadeEntrevista.Controllers
         public JsonResult Alterar(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
+            bool existe = bo.VerificarExistencia(model.CPF,model.Id);
+           
+            if (existe)
+            {
+                ModelState.AddModelError(nameof(ClienteModel.CPF), "Já existe registro com o CPF informado!");
+            }
 
             if (!this.ModelState.IsValid)
             {
@@ -116,7 +122,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = cliente.Nacionalidade,
                     Nome = cliente.Nome,
                     Sobrenome = cliente.Sobrenome,
-                    Telefone = cliente.Telefone
+                    Telefone = cliente.Telefone,
+                    CPF = cliente.CPF
                 };
             }
 
