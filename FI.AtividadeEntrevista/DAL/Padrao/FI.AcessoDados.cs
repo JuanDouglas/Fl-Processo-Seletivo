@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FI.AtividadeEntrevista.DAL
 {
@@ -15,20 +11,19 @@ namespace FI.AtividadeEntrevista.DAL
         {
             get
             {
-                ConnectionStringSettings conn = System.Configuration.ConfigurationManager.ConnectionStrings["BancoDeDados"];
+                ConnectionStringSettings conn = ConfigurationManager.ConnectionStrings["BancoDeDados"];
                 if (conn != null)
                     return conn.ConnectionString;
                 else
                     return string.Empty;
             }
         }
-
-        internal void Executar(string NomeProcedure, List<SqlParameter> parametros)
+        protected void Executar(string NomeProcedure, List<SqlParameter> parametros)
         {
             SqlCommand comando = new SqlCommand();
             SqlConnection conexao = new SqlConnection(stringDeConexao);
             comando.Connection = conexao;
-            comando.CommandType = System.Data.CommandType.StoredProcedure;
+            comando.CommandType = CommandType.StoredProcedure;
             comando.CommandText = NomeProcedure;
             foreach (var item in parametros)
                 comando.Parameters.Add(item);
@@ -44,7 +39,13 @@ namespace FI.AtividadeEntrevista.DAL
             }
         }
 
-        internal DataSet Consultar(string NomeProcedure, List<SqlParameter> parametros)
+        /// <summary>
+        /// Efetua uma nova consulta ao banco com retorno de dataset
+        /// </summary>
+        /// <param name="NomeProcedure"></param>
+        /// <param name="parametros"></param>
+        /// <returns></returns>
+        protected DataSet Consultar(string NomeProcedure, List<SqlParameter> parametros)
         {
             SqlCommand comando = new SqlCommand();
             SqlConnection conexao = new SqlConnection(stringDeConexao);
@@ -60,7 +61,7 @@ namespace FI.AtividadeEntrevista.DAL
             conexao.Open();
 
             try
-            {               
+            {
                 adapter.Fill(ds);
             }
             finally

@@ -1,48 +1,90 @@
-﻿using System;
+﻿using FI.AtividadeEntrevista.DAL;
+using FI.AtividadeEntrevista.DML;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FI.AtividadeEntrevista.BLL
 {
+    /// <summary>
+    /// Camada de lógicas associadas a um cliente.
+    /// </summary>
     public class BoCliente
     {
         /// <summary>
-        /// Inclui um novo cliente
+        /// Inclui um novo <see cref="Cliente"/>
         /// </summary>
-        /// <param name="cliente">Objeto de cliente</param>
-        public long Incluir(DML.Cliente cliente)
+        /// <param name="cliente">Objeto de cliente <see cref="Cliente"/></param>
+        public long Incluir(Cliente cliente)
         {
-            DAL.DaoCliente cli = new DAL.DaoCliente();
-            return cli.Incluir(cliente);
+            DaoCliente cli = new DaoCliente();
+            DaoBeneficiario daoBenef = new DaoBeneficiario();
+
+            ValidarCliente(cliente);
+
+            long idCliente = cli.Incluir(cliente);
+
+            foreach (Beneficiario benef in cliente.Beneficiarios)
+            {
+                _ = daoBenef.Incluir(benef, idCliente);
+            }
+
+            return idCliente;
         }
 
         /// <summary>
-        /// Altera um cliente
+        /// Altera um <see cref="Cliente"/>
         /// </summary>
-        /// <param name="cliente">Objeto de cliente</param>
-        public void Alterar(DML.Cliente cliente)
+        /// <param name="cliente">Objeto de <see cref="Cliente"/></param>
+        public void Alterar(Cliente cliente)
         {
-            DAL.DaoCliente cli = new DAL.DaoCliente();
+            DaoCliente cli = new DaoCliente();
+            DaoBeneficiario daoBenef = new DaoBeneficiario();
+
+            ValidarCliente(cliente);
+
             cli.Alterar(cliente);
+
+            foreach (Beneficiario benef in cliente.Beneficiarios)
+            {
+                long idBenef = benef.Id;
+                bool existe = false;
+
+                if (idBenef < 1)
+                {
+                    existe = daoBenef.VerificaBeneficiario(cliente.Id, benef.CPF, out idBenef);
+                }
+
+                if (!existe)
+                {
+                    _ = daoBenef.Incluir(benef, cliente.Id);
+                    continue;
+                }
+
+                /*
+                 * O uso do ID do cliente nesse estado 
+                 * impede que um beneficiario inadequado 
+                 * seja alterado.
+                 */
+                daoBenef.Alterar(benef, cliente.Id);
+            }
         }
 
         /// <summary>
-        /// Consulta o cliente pelo id
+        /// Consulta o <see cref="Cliente"/> pelo <seealso cref="Cliente.Id"/>
         /// </summary>
-        /// <param name="id">id do cliente</param>
+        /// <param name="id">id do <see cref="Cliente"/></param>
         /// <returns></returns>
-        public DML.Cliente Consultar(long id)
+        public Cliente Consultar(long id)
         {
-            DAL.DaoCliente cli = new DAL.DaoCliente();
+            DaoCliente cli = new DAL.DaoCliente();
             return cli.Consultar(id);
         }
 
         /// <summary>
-        /// Excluir o cliente pelo id
+        /// Excluir o <see cref="Cliente"/> pelo <seealso cref="Cliente.Id"/>
         /// </summary>
-        /// <param name="id">id do cliente</param>
+        /// <param name="id">id do <see cref="Cliente"/></param>
         /// <returns></returns>
         public void Excluir(long id)
         {
@@ -53,7 +95,7 @@ namespace FI.AtividadeEntrevista.BLL
         /// <summary>
         /// Lista os clientes
         /// </summary>
-        public List<DML.Cliente> Listar()
+        public List<Cliente> Listar()
         {
             DAL.DaoCliente cli = new DAL.DaoCliente();
             return cli.Listar();
@@ -76,8 +118,30 @@ namespace FI.AtividadeEntrevista.BLL
         /// <returns></returns>
         public bool VerificarExistencia(string CPF, long idExistente = 0)
         {
-            DAL.DaoCliente cli = new DAL.DaoCliente();
+            DaoCliente cli = new DaoCliente();
             return cli.VerificarExistencia(CPF, idExistente);
+        }
+
+        private void ValidarCliente(Cliente cliente)
+        {
+            DaoCliente cli = new DaoCliente();
+
+            if (cli.VerificarExistencia(cliente.CPF))
+            {
+                throw new ArgumentException("Não deve haver mais de um registro com o mesmo CPF!");
+            }
+
+            foreach (Beneficiario benef in cliente.Beneficiarios)
+            {
+                int existentes = (from buscado in cliente.Beneficiarios
+                                  where benef.CPF == buscado.CPF
+                                  select 0).Count();
+
+                if (existentes > 1)
+                {
+                    throw new ArgumentException("Não deve haver dois beneficiarios com o mesmo CPF");
+                }
+            }
         }
     }
 }

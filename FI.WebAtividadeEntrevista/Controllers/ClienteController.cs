@@ -108,7 +108,7 @@ namespace WebAtividadeEntrevista.Controllers
             BoCliente bo = new BoCliente();
             Cliente cliente = bo.Consultar(id);
             Models.ClienteModel model = null;
-
+            
             if (cliente != null)
             {
                 model = new ClienteModel()

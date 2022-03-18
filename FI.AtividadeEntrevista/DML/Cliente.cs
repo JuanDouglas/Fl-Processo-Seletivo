@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FI.AtividadeEntrevista.DML
 {
@@ -15,7 +11,7 @@ namespace FI.AtividadeEntrevista.DML
         /// Id
         /// </summary>
         public long Id { get; set; }
-        
+
         /// <summary>
         /// CEP
         /// </summary>
@@ -63,6 +59,11 @@ namespace FI.AtividadeEntrevista.DML
         /// <summary>
         /// Telefone
         /// </summary>
-        public string Telefone { get; set; }        
-    }    
+        public string Telefone { get; set; }
+
+        /// <summary>
+        /// Lista de Beneficiarios de um cliente (Tendo como tipo T <see cref="Beneficiario"/>).
+        /// </summary>
+        public IEnumerable<Beneficiario> Beneficiarios { get; set; }
+    }
 }
