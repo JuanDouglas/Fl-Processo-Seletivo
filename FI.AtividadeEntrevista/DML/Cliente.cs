@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace FI.AtividadeEntrevista.DML
 {
@@ -51,6 +52,7 @@ namespace FI.AtividadeEntrevista.DML
         /// CPF
         /// </summary>
         public string CPF { get; set; }
+
         /// <summary>
         /// Sobrenome
         /// </summary>

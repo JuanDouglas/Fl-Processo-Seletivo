@@ -1,0 +1,55 @@
+﻿@using WebAtividadeEntrevista.Models
+@model IEnumerable<BeneficiarioModel>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">CPF</th>
+            <th scope="col">Nome</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.TextBox("CPF", item.CPF, new
+                       {
+                           @class = "form-control",
+                           placeholder = "Ex.: 000.000.000-00",
+                           maxlength = "14",
+                           required = "required",
+                           type="cpf",
+                           disabled = "disabled"
+                       })
+
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.TextBox("Nome", item.Nome, new
+                      {
+                          @class = "form-control",
+                          placeholder = "Ex.: João",
+                          maxlength = "50",
+                          required = "required",
+                          disabled = "disabled"
+                      })
+                        </div>
+                    </div>
+                </td>
+                <td class="row">
+                    <button type="button" class="btn btn-sm btn-primary">Alterar</button>
+                    <button type="button" class="btn btn-sm btn-primary">Excluir</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="jtable"></div>

@@ -3,9 +3,9 @@ using WebAtividadeEntrevista.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using FI.AtividadeEntrevista.DML;
+using WebAtividadeEntrevista.Models.Atributos;
 
 namespace WebAtividadeEntrevista.Controllers
 {
@@ -66,8 +66,8 @@ namespace WebAtividadeEntrevista.Controllers
         public JsonResult Alterar(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
-            bool existe = bo.VerificarExistencia(model.CPF,model.Id);
-           
+            bool existe = bo.VerificarExistencia(model.CPF, model.Id);
+
             if (existe)
             {
                 ModelState.AddModelError(nameof(ClienteModel.CPF), "Já existe registro com o CPF informado!");
@@ -107,8 +107,8 @@ namespace WebAtividadeEntrevista.Controllers
         {
             BoCliente bo = new BoCliente();
             Cliente cliente = bo.Consultar(id);
-            Models.ClienteModel model = null;
-            
+            ClienteModel model = null;
+
             if (cliente != null)
             {
                 model = new ClienteModel()
@@ -155,6 +155,15 @@ namespace WebAtividadeEntrevista.Controllers
             {
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
+        }
+
+        [HttpGet]
+        public JsonResult CpfValido(string cpf)
+        {
+            return Json(new
+            {
+                Valido = CPFAttribute.CPFValido(cpf)
+            }, JsonRequestBehavior.AllowGet);
         }
     }
 }

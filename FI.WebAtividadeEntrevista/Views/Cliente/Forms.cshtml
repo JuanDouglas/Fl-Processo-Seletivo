@@ -1,4 +1,6 @@
-﻿
+﻿@using WebAtividadeEntrevista.Models;
+@model  ClienteModel
+
 <form id="formCadastro" method="post">
     <div class="row">
         <div class="col-md-6">
@@ -18,7 +20,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Nacionalidade">CPF:</label>
-                <input required="required" type="text" class="form-control" id="CPF" name="CPF" placeholder="Ex.: 000.000.000-00" maxlength="14">
+                <input required="required" type="cpf" class="form-control" id="CPF" name="CPF" placeholder="Ex.: 000.000.000-00" maxlength="14">
             </div>
         </div>
         <div class="col-md-6">
@@ -75,6 +77,18 @@
                 <input required="required" type="tel" class="form-control" id="Telefone" name="Telefone" placeholder="Ex.: (11) 2020-3030" maxlength="15">
             </div>
         </div>
+    </div>  
+
+    <div class="row">
+        @Html.Partial("Beneficiarios\\Modal", Model.Beneficiarios)
+        <div class="col-md-6">
+            <div class="form-group">
+                <button type="button" 
+                        class="btn btn-sm btn-light col-md-4"
+                        data-target="#modalBeneficiarios"
+                        data-toggle="modal">Beneficiarios</button>
+            </div>
+        </div>
     </div>
 
     <div class="row">
@@ -85,4 +99,6 @@
             </div>
         </div>
     </div>
+
+
 </form>

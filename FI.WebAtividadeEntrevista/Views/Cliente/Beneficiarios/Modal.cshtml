@@ -1,0 +1,40 @@
+﻿@using WebAtividadeEntrevista.Models;
+@model IEnumerable<BeneficiarioModel>
+
+<div id="modalBeneficiarios" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Beneficiarios</h4>
+            </div>
+            <div class="modal-body">
+                <!-- Principais Botões -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="Nacionalidade">CPF:</label>
+                            <input required="required" type="cpf" class="form-control" id="CPF" name="CPF" placeholder="Ex.: 000.000.000-00" maxlength="14">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="Nome">Nome:</label>
+                            <input required="required" type="text" class="form-control" id="Nome" name="Nome" placeholder="Ex.: João" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-success" onclick="incluirBeneficiario()">Incluir</button>
+                        </div>
+                    </div>
+                </div>
+
+                @Html.Partial("Beneficiarios\\Tabela", Model ?? new List<BeneficiarioModel>())
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div> <!-- /.modal -->              

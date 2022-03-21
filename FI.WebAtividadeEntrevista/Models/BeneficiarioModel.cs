@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
+using WebAtividadeEntrevista.Models.Atributos;
 
-namespace WebAtividadeEntrevista.Models.Atributos
+namespace WebAtividadeEntrevista.Models
 {
     public class BeneficiarioModel
     {

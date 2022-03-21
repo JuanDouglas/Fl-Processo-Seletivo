@@ -2,25 +2,32 @@
 
 namespace WebAtividadeEntrevista.Models.Atributos
 {
-    public sealed class CPFAttribute : ValidationAttribute
+    public sealed class CPFAttribute : RegularExpressionAttribute
     {
-        public CPFAttribute()
+        public CPFAttribute() : base("^\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}$")
         {
             ErrorMessage = "O CPF informado não é válido!";
         }
+
         public override bool IsValid(object value)
         {
             value = value ?? string.Empty;
 
+#warning Validação do formato do CPF
+            //if (base.IsValid(value))
+            //{
+            //    ErrorMessage = "O formato do CPF deve ser 000.000.000-00";
+            //    return false;
+            //}
+
             if (value is string)
             {
-                return CPFValido(value as string);
+               return CPFValido(value as string);
             }
 
             return CPFValido(value.ToString());
         }
-
-        private static bool CPFValido(string cpf)
+        public static bool CPFValido(string cpf)
         {
             int[] numArray1 = new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
             int[] numArray2 = new int[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };

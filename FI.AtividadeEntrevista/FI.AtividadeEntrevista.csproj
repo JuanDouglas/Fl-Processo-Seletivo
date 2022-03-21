@@ -62,7 +62,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\BoCliente.cs" />
+    <Content Include="DAL\Beneficiarios\Procedures\FI_SP_DelBenef.sql" />
     <Compile Include="DAL\Beneficiarios\DaoBeneficiario.cs" />
+    <Content Include="DAL\Beneficiarios\Procedures\FI_SP_ConsBenef.sql" />
     <Compile Include="DAL\Clientes\DaoCliente.cs" />
     <Content Include="DAL\Beneficiarios\Procedures\FI_SP_AltBenef.sql" />
     <Content Include="DAL\Beneficiarios\Procedures\FI_SP_VerificaBenef.sql" />

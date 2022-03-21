@@ -77,8 +77,12 @@ namespace FI.AtividadeEntrevista.BLL
         /// <returns></returns>
         public Cliente Consultar(long id)
         {
-            DaoCliente cli = new DAL.DaoCliente();
-            return cli.Consultar(id);
+            DaoCliente cli = new DaoCliente();
+            DaoBeneficiario daoBenef = new DaoBeneficiario();
+
+            Cliente cliente = cli.Consultar(id);
+            cliente.Beneficiarios = daoBenef.Listar(id);
+            return cliente;
         }
 
         /// <summary>
@@ -88,7 +92,10 @@ namespace FI.AtividadeEntrevista.BLL
         /// <returns></returns>
         public void Excluir(long id)
         {
-            DAL.DaoCliente cli = new DAL.DaoCliente();
+            DaoBeneficiario daoBenef = new DaoBeneficiario();
+            DaoCliente cli = new DaoCliente();
+
+            daoBenef.Excluir(id);
             cli.Excluir(id);
         }
 
@@ -97,7 +104,7 @@ namespace FI.AtividadeEntrevista.BLL
         /// </summary>
         public List<Cliente> Listar()
         {
-            DAL.DaoCliente cli = new DAL.DaoCliente();
+            DaoCliente cli = new DaoCliente();
             return cli.Listar();
         }
 

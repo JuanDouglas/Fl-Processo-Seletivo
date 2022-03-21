@@ -26,7 +26,7 @@ namespace FI.AtividadeEntrevista.DAL
                 new SqlParameter("IdCliente", idCliente)
             };
 
-            DataSet ds = Consultar("FI_SP_IncBenef", parametros);
+            DataSet ds = Consultar("FI_SP_IncBeneficiario", parametros);
             long ret = 0;
 
             if (ds.Tables[0].Rows.Count > 0)
@@ -50,7 +50,7 @@ namespace FI.AtividadeEntrevista.DAL
                 new SqlParameter("IdCliente", idCliente)
             };
 
-            DataSet ds = Consultar("FI_SP_IncBenef", parametros);
+            DataSet ds = Consultar("FI_SP_IncBeneficiario", parametros);
 
             bool existe = ds.Tables[0].Rows.Count > 0;
 
@@ -73,10 +73,60 @@ namespace FI.AtividadeEntrevista.DAL
                 new SqlParameter("Id", benef.Id),
                 new SqlParameter("Nome", benef.Nome),
                 new SqlParameter("CPF", benef.CPF),
-                new SqlParameter("IdlLiente", idCliente)
+                new SqlParameter("IdCliente", idCliente)
             };
 
-            Executar("FI_SP_AltBenef", parametros);
+            Executar("FI_SP_AltBeneficiario", parametros);
+        }
+
+        /// <summary>
+        /// Exclui 1 ou todos os <see cref="Beneficiario"/> de um determinado <see cref="Cliente"/>.
+        /// </summary>
+        /// <param name="idCliente"></param>
+        /// <param name="id"></param>
+        public void Excluir(long idCliente, long id = 0)
+        {
+            List<SqlParameter> parametros = new List<SqlParameter> {
+                new SqlParameter("Id", id),
+                new SqlParameter("IdCliente", idCliente)
+            };
+
+            Executar("FI_SP_DelBeneficiario", parametros);
+        }
+
+        public List<Beneficiario> Listar(long idCliente, long id = 0)
+        {
+            List<SqlParameter> parametros = new List<SqlParameter>
+            {
+                new SqlParameter("Id", id),
+                new SqlParameter("IdCliente",idCliente)
+            };
+
+            DataSet ds = Consultar("FI_SP_ConsBeneficiario", parametros);
+            List<Beneficiario> benefs = Converter(ds);
+
+            return benefs;
+        }
+
+        private List<Beneficiario> Converter(DataSet ds)
+        {
+            List<Beneficiario> lista = new List<Beneficiario>();
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow row in ds.Tables[0].Rows)
+                {
+                    Beneficiario cli = new Beneficiario
+                    {
+                        Id = row.Field<long>("Id"),
+                        Nome = row.Field<string>("Nome"),
+                        CPF = row.Field<string>("CPF")
+                    };
+
+                    lista.Add(cli);
+                }
+            }
+
+            return lista;
         }
     }
 }
