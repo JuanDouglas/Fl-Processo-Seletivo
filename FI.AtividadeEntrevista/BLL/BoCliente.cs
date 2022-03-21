@@ -41,6 +41,7 @@ namespace FI.AtividadeEntrevista.BLL
         {
             DaoCliente cli = new DaoCliente();
             DaoBeneficiario daoBenef = new DaoBeneficiario();
+            List<Beneficiario> beneficiarios = daoBenef.Listar(cliente.Id);
 
             ValidarCliente(cliente);
 
@@ -68,6 +69,14 @@ namespace FI.AtividadeEntrevista.BLL
                  * seja alterado.
                  */
                 daoBenef.Alterar(benef, cliente.Id);
+            }
+
+            foreach (Beneficiario benef in beneficiarios)
+            {
+                if (cliente.Beneficiarios.FirstOrDefault(fs => fs.CPF == benef.CPF) == null)
+                {
+                    daoBenef.Excluir(cliente.Id, benef.Id);
+                }
             }
         }
 
@@ -128,7 +137,7 @@ namespace FI.AtividadeEntrevista.BLL
         {
             Regex regex = new Regex("^[^\\d]$");
             DaoCliente cli = new DaoCliente();
-            return cli.VerificarExistencia(regex.Replace(cpf,string.Empty), idExistente);
+            return cli.VerificarExistencia(regex.Replace(cpf, string.Empty), idExistente);
         }
 
         private void ValidarCliente(Cliente cliente)

@@ -1,10 +1,11 @@
-﻿
+﻿@using WebAtividadeEntrevista.Models;
 @{
     ViewBag.Title = "Cadastrar Cliente";
 }
 @section scripts{
     <script>
         var urlPost = '@Url.Action("Incluir", "Cliente", new { area = "" })';
+        var obj = @Html.Raw(Json.Encode(new ClienteModel()));
     </script>
     <script type="text/javascript" src="~/Scripts/Clientes/FI.Clientes.js"></script>
     <script type="text/javascript" src="~/Scripts/Clientes/FI.AltClientes.js"></script>
