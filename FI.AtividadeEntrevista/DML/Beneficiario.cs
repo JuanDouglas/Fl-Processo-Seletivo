@@ -1,4 +1,7 @@
-﻿namespace FI.AtividadeEntrevista.DML
+﻿using System.Linq;
+using System.Text.RegularExpressions;
+
+namespace FI.AtividadeEntrevista.DML
 {
     /// <summary>
     /// Classe que representa um beneficiaro de um <see cref="Cliente"/>
@@ -10,7 +13,18 @@
         /// <summary>
         /// CPF do Beneficiario
         /// </summary>
-        public string CPF { get; set; }
+        public string CPF
+        {
+            get => cpf;
+            set
+            {
+                cpf = new string(value
+                  .Where(wh => char.IsDigit(wh))
+                  .ToArray());
+            }
+        }
+
+        private string cpf;
 
         /// <summary>
         /// Nome do beneficiario

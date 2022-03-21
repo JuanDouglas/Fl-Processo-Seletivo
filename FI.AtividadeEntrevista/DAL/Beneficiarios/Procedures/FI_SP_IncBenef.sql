@@ -1,6 +1,6 @@
 ﻿CREATE PROC FI_SP_IncBeneficiario
     @NOME          VARCHAR (100),
-    @CPF           VARCHAR (14),
+    @CPF           VARCHAR (11),
 	@IDCLIENTE	   BIGINT
 AS
 BEGIN

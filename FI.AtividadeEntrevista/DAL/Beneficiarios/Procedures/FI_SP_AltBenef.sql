@@ -1,6 +1,6 @@
-﻿CREATE PROC FI_SP_AltCliente
+﻿CREATE PROC FI_SP_AltBeneficiario
     @NOME          VARCHAR (50) ,
-	@CPF		   VARCHAR (14),
+	@CPF		   VARCHAR (11),
 	@Id            BIGINT,
 	@IDCLIENTE	   BIGINT
 AS

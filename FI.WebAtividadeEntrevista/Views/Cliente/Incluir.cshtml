@@ -6,7 +6,10 @@
     <script>
         var urlPost = '@Url.Action("Incluir", "Cliente", new { area = "" })';
     </script>
-    @Scripts.Render("~/bundles/clientes")
+    <script type="text/javascript" src="~/Scripts/Clientes/FI.Clientes.js"></script>
+    <script type="text/javascript" src="~/Scripts/Clientes/FI.AltClientes.js"></script>
+    @Scripts.Render("~/bundles/altClientes")
+@Scripts.Render("~/bundles/clientes")
 }
 <h2>@Html.Raw(ViewBag.Title)</h2>
 @Html.Partial("Forms")

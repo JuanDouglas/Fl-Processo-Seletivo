@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace FI.AtividadeEntrevista.DML
 {
@@ -8,10 +9,6 @@ namespace FI.AtividadeEntrevista.DML
     /// </summary>
     public class Cliente
     {
-        public Cliente()
-        {
-            Beneficiarios = new List<Beneficiario>();
-        }
         /// <summary>
         /// Id
         /// </summary>
@@ -53,9 +50,19 @@ namespace FI.AtividadeEntrevista.DML
         public string Nome { get; set; }
 
         /// <summary>
-        /// CPF
+        /// CPF do Beneficiario
         /// </summary>
-        public string CPF { get; set; }
+        public string CPF
+        {
+            get => cpf; set
+            {
+                cpf = new string(value
+                   .Where(wh => char.IsDigit(wh))
+                   .ToArray());
+            }
+        }
+
+        private string cpf;
 
         /// <summary>
         /// Sobrenome
@@ -71,5 +78,10 @@ namespace FI.AtividadeEntrevista.DML
         /// Lista de Beneficiarios de um cliente (Tendo como tipo T <see cref="Beneficiario"/>).
         /// </summary>
         public IEnumerable<Beneficiario> Beneficiarios { get; set; }
+
+        public Cliente()
+        {
+            Beneficiarios = new List<Beneficiario>();
+        }
     }
 }

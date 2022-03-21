@@ -1,5 +1,5 @@
 ﻿@using WebAtividadeEntrevista.Models;
-@model IEnumerable<BeneficiarioModel>
+@model BeneficiarioModel[]
 
 <div id="modalBeneficiarios" class="modal fade">
     <div class="modal-dialog">
@@ -30,7 +30,7 @@
                     </div>
                 </div>
 
-                @Html.Partial("Beneficiarios\\Tabela", Model ?? new List<BeneficiarioModel>())
+                @Html.Partial("Beneficiarios\\Tabela", Model ?? new BeneficiarioModel[0])
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>

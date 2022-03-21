@@ -80,7 +80,7 @@
     </div>  
 
     <div class="row">
-        @Html.Partial("Beneficiarios\\Modal", Model.Beneficiarios)
+        @Html.Partial("Beneficiarios\\Modal", Model.Beneficiarios ?? new BeneficiarioModel[0])
         <div class="col-md-6">
             <div class="form-group">
                 <button type="button" 
@@ -94,7 +94,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="pull-right">
-                <button type="submit" class="btn btn-sm btn-success">Salvar</button>
+                <button type="button" onclick="salvarCliente()" class="btn btn-sm btn-success">Salvar</button>
                 @Html.ActionLink("Voltar", "Index", "Cliente", new { }, new { @class = "btn btn-sm btn-danger" })
             </div>
         </div>

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web.Mvc;
 using FI.AtividadeEntrevista.DML;
 using WebAtividadeEntrevista.Models.Atributos;
+using System.Text.RegularExpressions;
 
 namespace WebAtividadeEntrevista.Controllers
 {
@@ -16,7 +17,6 @@ namespace WebAtividadeEntrevista.Controllers
             return View();
         }
 
-
         public ActionResult Incluir()
         {
             return View(new ClienteModel());
@@ -26,12 +26,8 @@ namespace WebAtividadeEntrevista.Controllers
         public JsonResult Incluir(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
-            bool existe = bo.VerificarExistencia(model.CPF);
 
-            if (existe)
-            {
-                ModelState.AddModelError(nameof(ClienteModel.CPF), "Já existe registro com o CPF informado!");
-            }
+            ValidarCliente(model);
 
             if (!ModelState.IsValid)
             {
@@ -55,7 +51,12 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone,
-                    CPF = model.CPF
+                    CPF = model.CPF,
+                    Beneficiarios = model.Beneficiarios.Select(sl => new Beneficiario()
+                    {
+                        Nome = sl.Nome,
+                        CPF = sl.CPF
+                    }).ToList()
                 });
 
                 return Json("Cadastro efetuado com sucesso");
@@ -66,12 +67,8 @@ namespace WebAtividadeEntrevista.Controllers
         public JsonResult Alterar(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
-            bool existe = bo.VerificarExistencia(model.CPF, model.Id);
 
-            if (existe)
-            {
-                ModelState.AddModelError(nameof(ClienteModel.CPF), "Já existe registro com o CPF informado!");
-            }
+            ValidarCliente(model);
 
             if (!this.ModelState.IsValid)
             {
@@ -96,7 +93,12 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone,
-                    CPF = model.CPF
+                    CPF = model.CPF,
+                    Beneficiarios = model.Beneficiarios.Select(sl => new Beneficiario()
+                    {
+                        Nome = sl.Nome,
+                        CPF = sl.CPF,
+                    }).ToList()
                 });
 
                 return Json("Cadastro alterado com sucesso");
@@ -124,7 +126,15 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = cliente.Nome,
                     Sobrenome = cliente.Sobrenome,
                     Telefone = cliente.Telefone,
-                    CPF = cliente.CPF
+                    CPF = cliente.CPF,
+                    Beneficiarios = cliente.Beneficiarios
+                    .Select(sl => new BeneficiarioModel()
+                    {
+                        CPF = sl.CPF,
+                        Nome = sl.Nome,
+                        Id = sl.Id
+                    })
+                    .ToArray()
                 };
             }
 
@@ -168,6 +178,33 @@ namespace WebAtividadeEntrevista.Controllers
                 valido,
                 error
             }, JsonRequestBehavior.AllowGet);
+        }
+
+        [NonAction]
+        public void ValidarCliente(ClienteModel model)
+        {
+            BoCliente bo = new BoCliente();
+            Regex regex = new Regex("^[^\\d]$");
+            bool existe = bo.VerificarExistencia(model.CPF, model.Id);
+            model.Beneficiarios = model.Beneficiarios ?? new BeneficiarioModel[0];
+
+            if (existe)
+            {
+                ModelState.AddModelError(nameof(ClienteModel.CPF), "Já existe registro com o CPF informado!");
+            }
+
+            for (int i = 0; i < model.Beneficiarios.Count() && ModelState.Count < 1; i++)
+            {
+                BeneficiarioModel item = model.Beneficiarios[i];
+                if (model.Beneficiarios.FirstOrDefault(fs =>
+                     regex.Replace(item.CPF, string.Empty) == regex.Replace(fs.CPF, string.Empty))
+                     != null)
+                {
+                    ModelState.AddModelError(nameof(ClienteModel.Beneficiarios), "Não deve haver dois beneficiários com o mesmo CPF!");
+                }
+            }
+
+            model.CPF = regex.Replace(model.CPF, string.Empty);
         }
     }
 }

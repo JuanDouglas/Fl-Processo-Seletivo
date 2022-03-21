@@ -3,6 +3,7 @@ using FI.AtividadeEntrevista.DML;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace FI.AtividadeEntrevista.BLL
 {
@@ -120,13 +121,14 @@ namespace FI.AtividadeEntrevista.BLL
         /// <summary>
         /// VerificaExistencia
         /// </summary>
-        /// <param name="CPF"></param>
+        /// <param name="cpf"></param>
         /// <param name="idExistente">Indica o id de cliente que deve ser desconsiderado.</param>
         /// <returns></returns>
-        public bool VerificarExistencia(string CPF, long idExistente = 0)
+        public bool VerificarExistencia(string cpf, long idExistente = 0)
         {
+            Regex regex = new Regex("^[^\\d]$");
             DaoCliente cli = new DaoCliente();
-            return cli.VerificarExistencia(CPF, idExistente);
+            return cli.VerificarExistencia(regex.Replace(cpf,string.Empty), idExistente);
         }
 
         private void ValidarCliente(Cliente cliente)

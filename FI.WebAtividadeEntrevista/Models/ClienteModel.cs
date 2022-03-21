@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 using WebAtividadeEntrevista.Models.Atributos;
 
 namespace WebAtividadeEntrevista.Models
@@ -9,11 +11,6 @@ namespace WebAtividadeEntrevista.Models
     /// </summary>
     public class ClienteModel
     {
-        public ClienteModel()
-        {
-            Beneficiarios = new List<BeneficiarioModel>();
-        }
-
         public long Id { get; set; }
 
         /// <summary>
@@ -65,7 +62,17 @@ namespace WebAtividadeEntrevista.Models
         [CPF]
         [Required]
         [StringLength(14)]
-        public string CPF { get; set; }
+        public string CPF
+        {
+            get => cpf;
+            set
+            {
+                Regex regex = new Regex(@"(\d{3})(\d{3})(\d{3})(\d{2})");
+                cpf = regex.Replace(value, "$1.$2.$3-$4");
+            }
+        }
+        private string cpf;
+
 
         /// <summary>
         /// Sobrenome
@@ -81,6 +88,6 @@ namespace WebAtividadeEntrevista.Models
         /// <summary>
         /// Beneficiarios desse cliente
         /// </summary>
-        public IEnumerable<BeneficiarioModel> Beneficiarios { get; set; }
+        public BeneficiarioModel[] Beneficiarios { get; set; }
     }
 }

@@ -50,7 +50,7 @@ namespace FI.AtividadeEntrevista.DAL
                 new SqlParameter("IdCliente", idCliente)
             };
 
-            DataSet ds = Consultar("FI_SP_IncBeneficiario", parametros);
+            DataSet ds = Consultar("FI_SP_VerificaBeneficiario", parametros);
 
             bool existe = ds.Tables[0].Rows.Count > 0;
 

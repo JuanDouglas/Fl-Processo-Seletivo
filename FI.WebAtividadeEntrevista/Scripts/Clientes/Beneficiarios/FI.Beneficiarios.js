@@ -25,10 +25,16 @@ function obterBeneficiarios() {
     return beneficiarios;
 }
 
+function removerBeneficario(event) {
+    $(event.target)
+        .closest('tr')
+        .remove();
+}
+
 function adicionarBeneficiario(benef = Beneficiario) {
     let tdBotoes = $('<td class="row"/>').html(
         '<button type="button" class="btn btn-sm btn-primary">Alterar</button>' +
-        '<button type="button" class="btn btn-sm btn-primary">Excluir</button>');
+        '<button type="button" class="btn btn-sm btn-primary" onclick="removerBeneficario(event)">Excluir</button>');
     let tBody = $('#tableBeneficiarios tbody');
     let tr = $('<tr/>');
 
