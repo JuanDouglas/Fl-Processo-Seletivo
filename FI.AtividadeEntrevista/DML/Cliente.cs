@@ -8,6 +8,10 @@ namespace FI.AtividadeEntrevista.DML
     /// </summary>
     public class Cliente
     {
+        public Cliente()
+        {
+            Beneficiarios = new List<Beneficiario>();
+        }
         /// <summary>
         /// Id
         /// </summary>

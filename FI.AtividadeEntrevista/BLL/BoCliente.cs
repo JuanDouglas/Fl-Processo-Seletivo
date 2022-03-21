@@ -133,7 +133,12 @@ namespace FI.AtividadeEntrevista.BLL
         {
             DaoCliente cli = new DaoCliente();
 
-            if (cli.VerificarExistencia(cliente.CPF))
+            if (string.IsNullOrEmpty(cliente.CPF))
+            {
+                throw new ArgumentException("O CPF não pode ser nulo!");
+            }
+
+            if (cli.VerificarExistencia(cliente.CPF, cliente.Id))
             {
                 throw new ArgumentException("Não deve haver mais de um registro com o mesmo CPF!");
             }

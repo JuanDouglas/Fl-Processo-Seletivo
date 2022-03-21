@@ -1,8 +1,8 @@
 ﻿@using WebAtividadeEntrevista.Models
 @model IEnumerable<BeneficiarioModel>
 
-<table class="table">
-    <thead class="thead-dark">
+<table id="tableBeneficiarios" class="table table-striped">
+    <thead class="thead-light">
         <tr>
             <th scope="col">CPF</th>
             <th scope="col">Nome</th>
@@ -25,7 +25,6 @@
                            type="cpf",
                            disabled = "disabled"
                        })
-
                         </div>
                     </div>
                 </td>

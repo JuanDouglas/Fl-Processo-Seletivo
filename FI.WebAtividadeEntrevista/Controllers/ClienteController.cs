@@ -19,7 +19,7 @@ namespace WebAtividadeEntrevista.Controllers
 
         public ActionResult Incluir()
         {
-            return View();
+            return View(new ClienteModel());
         }
 
         [HttpPost]
@@ -95,7 +95,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = model.Nacionalidade,
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone
+                    Telefone = model.Telefone,
+                    CPF = model.CPF
                 });
 
                 return Json("Cadastro alterado com sucesso");
@@ -160,9 +161,12 @@ namespace WebAtividadeEntrevista.Controllers
         [HttpGet]
         public JsonResult CpfValido(string cpf)
         {
+            bool valido = CPFAttribute.CPFValido(cpf);
+            string error = valido ? string.Empty : "O CPF informado não é válido!";
             return Json(new
             {
-                Valido = CPFAttribute.CPFValido(cpf)
+                valido,
+                error
             }, JsonRequestBehavior.AllowGet);
         }
     }

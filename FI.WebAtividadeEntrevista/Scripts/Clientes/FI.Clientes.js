@@ -66,3 +66,29 @@ function cpf(event) {
 
     event.target.value = cpf;
 }
+
+function adicionarError(selector, error) {
+    let input = $(selector);
+    let formGroup = input.closest('.form-group');
+    let span = formGroup.find('.control-label');
+
+    if (span.length < 1) {
+        span = $('<span/>');
+        span.addClass('control-label');
+        formGroup.append(span);
+    }
+
+    formGroup.addClass('has-error');
+    span.html(error);
+    input.on('keyup', removerError);
+    input.on('click', removerError);
+}
+
+function removerError(event) {
+    let input = $(event.target);
+    let formGroup = input.closest('.form-group');
+    let span = formGroup.find('.control-label');
+
+    formGroup.removeClass('has-error');
+    span.html('');
+}
