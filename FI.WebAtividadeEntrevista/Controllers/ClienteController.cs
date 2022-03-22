@@ -1,12 +1,12 @@
 ﻿using FI.AtividadeEntrevista.BLL;
-using WebAtividadeEntrevista.Models;
+using FI.AtividadeEntrevista.DML;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
-using FI.AtividadeEntrevista.DML;
-using WebAtividadeEntrevista.Models.Atributos;
 using System.Text.RegularExpressions;
+using System.Web.Mvc;
+using WebAtividadeEntrevista.Models;
+using WebAtividadeEntrevista.Models.Atributos;
 
 namespace WebAtividadeEntrevista.Controllers
 {

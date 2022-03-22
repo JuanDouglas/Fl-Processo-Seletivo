@@ -144,7 +144,7 @@ namespace FI.AtividadeEntrevista.DAL
                 new SqlParameter("ID", cliente.Id)
             };
 
-           Executar("FI_SP_AltCliente", parametros);
+            Executar("FI_SP_AltCliente", parametros);
         }
 
 

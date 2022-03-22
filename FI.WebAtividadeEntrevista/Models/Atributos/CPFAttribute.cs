@@ -22,7 +22,7 @@ namespace WebAtividadeEntrevista.Models.Atributos
 
             if (value is string)
             {
-               return CPFValido(value as string);
+                return CPFValido(value as string);
             }
 
             return CPFValido(value.ToString());
