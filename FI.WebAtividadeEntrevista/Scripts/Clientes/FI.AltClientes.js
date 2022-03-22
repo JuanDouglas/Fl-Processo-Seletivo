@@ -1,7 +1,7 @@
 ﻿
 $(document).ready(function () {
     if (obj) {
-        $('#formCadastro #Nome').val(obj.Nome);
+        $('#formCadastro .col-md-6 #Nome').val(obj.Nome);
         $('#formCadastro #CEP').val(obj.CEP);
         $('#formCadastro #Email').val(obj.Email);
         $('#formCadastro #Sobrenome').val(obj.Sobrenome);
@@ -10,7 +10,7 @@ $(document).ready(function () {
         $('#formCadastro #Cidade').val(obj.Cidade);
         $('#formCadastro #Logradouro').val(obj.Logradouro);
         $('#formCadastro #Telefone').val(obj.Telefone);
-        $('#formCadastro #CPF').val(obj.CPF);
+        $('#formCadastro .col-md-6 #CPF').val(obj.CPF);
     }
 
     $('#formCadastro').submit(function (e) {
@@ -31,7 +31,7 @@ function salvarCliente() {
         Logradouro: form.find("#Logradouro").val(),
         Telefone: form.find("#Telefone").val(),
         CPF: form.find("#CPF").val(),
-        Beneficiarios: obterBeneficiarios()
+        Beneficiarios: obterBeneficiarios(true)
     }
 
     $.ajax({
