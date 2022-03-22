@@ -55,6 +55,7 @@ namespace FI.AtividadeEntrevista.BLL
                 if (idBenef < 1)
                 {
                     existe = daoBenef.VerificaBeneficiario(cliente.Id, benef.CPF, out idBenef);
+                    benef.Id = idBenef;
                 }
 
                 if (!existe)
@@ -137,6 +138,12 @@ namespace FI.AtividadeEntrevista.BLL
         {
             Regex regex = new Regex("^[^\\d]$");
             DaoCliente cli = new DaoCliente();
+
+            if (string.IsNullOrEmpty(cpf))
+            {
+                return false;
+            }
+
             return cli.VerificarExistencia(regex.Replace(cpf, string.Empty), idExistente);
         }
 

@@ -185,6 +185,7 @@ namespace WebAtividadeEntrevista.Controllers
         {
             BoCliente bo = new BoCliente();
             Regex regex = new Regex("^[^\\d]$");
+            model.CPF = model.CPF ?? string.Empty;
             bool existe = bo.VerificarExistencia(model.CPF, model.Id);
             model.Beneficiarios = model.Beneficiarios ?? new BeneficiarioModel[0];
 
@@ -197,7 +198,7 @@ namespace WebAtividadeEntrevista.Controllers
             {
                 BeneficiarioModel item = model.Beneficiarios[i];
                 if (model.Beneficiarios.FirstOrDefault(fs =>
-                     regex.Replace(item.CPF, string.Empty) == regex.Replace(fs.CPF, string.Empty))
+                     regex.Replace(item.CPF ?? string.Empty, string.Empty) == regex.Replace(fs.CPF ?? string.Empty, string.Empty))
                      != null)
                 {
                     ModelState.AddModelError(nameof(ClienteModel.Beneficiarios), "Não deve haver dois beneficiários com o mesmo CPF!");

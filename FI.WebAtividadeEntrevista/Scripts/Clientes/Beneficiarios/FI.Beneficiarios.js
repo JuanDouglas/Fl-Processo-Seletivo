@@ -19,13 +19,16 @@ async function salvarAlteracaoBeneficiario(event) {
     let nome = tr.find('#Nome');
     let button = tr.find('#btnAlterar');
     let benef = new Beneficiario(cpf.val(), nome.val());
-    let resultado = await benef.validar(true);
 
-    if (resultado.length > 0) {
-        for (var i = 0; i < resultado.length; i++) {
-            adicionarError('#modalBeneficiarios tr[edicao=' + tr.attr('edicao') + '] #' + resultado[i].campo, resultado[i].error)
+    if (benef.cpf != cpf.data('last-value')) {
+        let resultado = await benef.validar(true);
+
+        if (resultado.length > 0) {
+            for (var i = 0; i < resultado.length; i++) {
+                adicionarError('#modalBeneficiarios tr[edicao=' + tr.attr('edicao') + '] #' + resultado[i].campo, resultado[i].error)
+            }
+            return;
         }
-        return;
     }
 
     tr.removeAttr('edicao');
@@ -88,9 +91,9 @@ function alterarBeneficario(event) {
 }
 
 function adicionarBeneficiario(benef = Beneficiario) {
-    let tdBotoes = $('<td class="row"/>').html(
+    let tdBotoes = $('<td class="row col-md-4"/>').html(
         '<button id="btnAlterar" type="button" class="btn btn-sm btn-primary" onclick="alterarBeneficario(event)">Alterar</button>' +
-        '<button id="btnExcluir" type="button" class="btn btn-sm btn-primary" onclick="removerBeneficario(event)">Excluir</button>');
+        ' <button id="btnExcluir" type="button" class="btn btn-sm btn-primary" onclick="removerBeneficario(event)">Excluir</button>');
     let tBody = $('#tableBeneficiarios tbody');
     let tr = $('<tr/>');
 

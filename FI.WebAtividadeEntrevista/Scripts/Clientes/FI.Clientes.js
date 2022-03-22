@@ -65,8 +65,6 @@ function cpf(event) {
     cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
 
     event.target.value = cpf;
-
-    console.log(cpf);
 }
 
 function adicionarError(selector, error) {
